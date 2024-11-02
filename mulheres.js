@@ -1,6 +1,6 @@
 const express = require("express") //aqui estou iniciando o express
 const router = express.Router() //aqui estou configurando a primeira parte da rota
-const cors = required("cors") //aqui estou tarzendo o pacote cors que permite consumir esta API no front-end
+const cors = require("cors") //aqui estou trazendo o pacote cors que permite consumir esta API no Front-end
 const app = express() //aqui estou iniciando o app
 const Mulher = require("./mulherModel")
 const conectaBancoDeDados = require("./bancoDeDados.js") //aqui estou ligando ao arquivo bancoDeDados
@@ -24,9 +24,9 @@ async function mostraMulheres(request, response) {
 
 //POST
 async function criaMulher(request, response) {
-    const novaMulher = new Mulher ({
+    const novaMulher = new Mulher({
         nome: request.body.nome,
-        immagem: request.body.imagem,
+        imagem: request.body.imagem,
         minibio: request.body.minibio,
         citacao: request.body.citacao
     })
@@ -34,16 +34,16 @@ async function criaMulher(request, response) {
     try {
     const mulherCriada = await novaMulher.save()
         response.status(201).json(mulherCriada)
-        
+
     } catch(erro) {
-        console.log()
+        console.log(erro)
     }   
 }
 
 //PATCH
 async function corrigeMulher (request, response) {
     try {
-            const mulherEncontrada = await Mulher.findById(requeste.params.id)
+            const mulherEncontrada = await Mulher.findById(request.params.id)
 
             if(request.body.nome) {
                 mulherEncontrada.nome = request.body.nome
@@ -74,7 +74,7 @@ async function corrigeMulher (request, response) {
 async function deletaMulher(request, response) {
     try{
         await Mulher.findByIdAndDelete(request.params.id)  
-        response.json({ message: "Mulher deletada com sucesso!"})
+        response.json({message: "Mulher deletada com sucesso!"})
     } catch(erro) {
         console.log(erro)
     }
@@ -87,7 +87,7 @@ app.use(router.patch("/mulheres/:id", corrigeMulher)) //configurei rota PATCH /m
 app.use(router.delete("/mulheres/:id", deletaMulher)) //configurei rota DELETE /mulheres
 
 //PORTA
-function mostraPorta () {
+function mostraPorta() {
     console.log ('Servidor criado e rodando na porta ', porta)
 }
 
